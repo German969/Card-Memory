@@ -6,6 +6,7 @@ const connectDB = require('./config/database');
 const userRoutes = require('./routes/userRoutes');
 const memoryRoutes = require('./routes/memoryRoutes');
 const currentUser = require('./middlewares/currentUser');
+const auth = require('./middlewares/auth');
 
 
 // Load environment variables
@@ -29,8 +30,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(currentUser);
 
 // Routes
-app.use('/api/users', userRoutes); // Ensure this line exists
-app.use('/api/memory', memoryRoutes);
+// Public Routes
+app.use('/api/users', userRoutes);
+
+// Authenticated Routes
+app.use('/api/memory', auth, memoryRoutes);
 
 
 // Connect to MongoDB
