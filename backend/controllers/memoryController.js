@@ -27,3 +27,13 @@ exports.saveGameData = async (req, res) => {
         res.status(500).json({ message: 'Error saving game data', error });
     }
 };
+
+exports.getHistory = async (req, res) => {
+    const userHistory = await Save.find({
+        userID: req.currentUser._id,
+    }).sort({
+        gameDate: -1
+    });
+
+    res.status(200).json(userHistory);
+};

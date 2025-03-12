@@ -13,7 +13,6 @@ module.exports = function (req, res, next) {
         return res.status(403).json({ message: 'Invalid token' });
       } else {
         const user = await User.findById(decoded.id);
-        console.log(user);
         req.currentUser = user;
         next();
       }
