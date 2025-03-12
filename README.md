@@ -51,14 +51,14 @@ Follow the steps below to set up the project on your local machine:
     ```bash
     cd ./backend
     npm install
-    npm run dev
+    npm start
     ```
 
 4. Open a new terminal console for the frontend:
     ```bash
     cd ../frontend
     npm install
-    npm start
+    npm run dev
     ```
 
 ## Usage
