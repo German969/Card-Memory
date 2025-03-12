@@ -77,7 +77,7 @@ const Play = () => {
     playClickSound,
     playHoverSound,
     handleBgVolumeChange,
-    handleSfxVolumeChange,
+    handleSfxVolumeChange
   } = useSettings();
 
   const SettingopenModal = () => {
@@ -121,7 +121,7 @@ const Play = () => {
       } else if (difficulty === Difficulty.EASY) {
         navigate("/calm-easy");
       } else {
-        alert(`Selected difficulty: ${difficulty}`);
+        alert('Please select a difficulty');
       }
     } else {
       if (difficulty === Difficulty.HARD) {
@@ -131,7 +131,7 @@ const Play = () => {
       } else if (difficulty === Difficulty.EASY) {
         navigate("/easy");
       } else {
-        alert(`Selected difficulty: ${difficulty}`);
+        alert('Please select a difficulty');
       }
     }
   };

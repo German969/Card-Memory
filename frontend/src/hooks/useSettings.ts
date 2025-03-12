@@ -116,5 +116,6 @@ export default function useSettings() {
     playHoverSound,
     handleBgVolumeChange,
     handleSfxVolumeChange,
+    toggleCalmMode,
   }
 }
