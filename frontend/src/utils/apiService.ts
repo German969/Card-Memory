@@ -35,11 +35,14 @@ class ApiService {
     body,
     params
   }: ApiServiceRequestConfig<D>) {
+    const token = localStorage.getItem('token');
+
     const baseHeaders = {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization": token ? "Bearer " + token : undefined,
     };
 
-    return axios({
+    return this.axiosInstance({
       method,
       url,
       headers: {

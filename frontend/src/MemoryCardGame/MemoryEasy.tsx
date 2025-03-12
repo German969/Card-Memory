@@ -8,7 +8,22 @@ import background from "../assets/images/mode1.gif";
 import bgMusic from "../assets/audio/memory-bg.mp3";
 import {apiService} from "../utils/apiService";
 
-const defaultDifficulty = "Easy";
+enum Difficulty {
+  EASY = 'Easy',
+  NORMAL = 'Normal',
+  HARD = 'Hard',
+}
+
+interface GameData {
+  userID: string;
+  gameDate: Date;
+  failed: number;
+  difficulty: Difficulty;
+  completed: number;
+  timeTaken: number;
+}
+
+const defaultDifficulty = Difficulty.EASY;
 
 // Card Images
 const cardImages = [
@@ -21,7 +36,6 @@ const cardImages = [
 // Audio files for matching and final congratulation
 const matchAudioFiles = [
   "/audio/wonderful.mp3",
-
 ];
 
 const congratsAudio = "/audio/congrats.mp3"; // Final congratulations audio
@@ -35,10 +49,11 @@ const shuffleArray = (array) => {
   }
   return shuffledArray;
 };
-const saveGameData = async (gameData) => {
+const saveGameData = async (gameData: GameData) => {
   try {
-    const response = await axios.post(import.meta.env.VITE_API_URL + "/api/memory/save", gameData, {
-      headers: { "Content-Type": "application/json" },
+    const response = await apiService.post<GameData>({
+      url: '/api/memory/save',
+      body: gameData,
     });
 
     console.log("Game data saved successfully", response.data);
