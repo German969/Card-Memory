@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const connectDB = require('./config/database');
 const userRoutes = require('./routes/userRoutes');
 const memoryRoutes = require('./routes/memoryRoutes');
+const currentUser = require('./middlewares/currentUser');
 
 
 // Load environment variables
@@ -23,6 +24,9 @@ const app = express();
 app.use(cors()); // Allow cross-origin requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Current User Middleware
+app.use(currentUser);
 
 // Routes
 app.use('/api/users', userRoutes); // Ensure this line exists
