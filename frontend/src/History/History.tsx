@@ -1,18 +1,12 @@
 import calmBackground from "../assets/images/calm-wallpaper.jpg";
 import backgroundGif from "../assets/images/play.gif";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import buttonHoverSound from "../assets/audio/button-hover.mp3";
 import {apiService} from "../utils/apiService";
 import {Difficulty} from "../constants/history";
 import moment from "moment";
 import "./History.css";
-
-interface HoverAudioRef {
-  currentTime: number;
-  volume: number;
-  play: Function;
-}
+import useSettings from "../hooks/useSettings";
 
 interface SavedGame {
   completed: number;
@@ -29,31 +23,10 @@ const History = () => {
 
   const [gameHistory, setGameHistory] = useState<SavedGame[]>([]);
 
-  const [isCalmMode, setIsCalmMode] = useState(false);
-
-  const [sfxVolume, setSfxVolume] = useState(
-    localStorage.getItem("sfxVolume") !== null
-      ? parseInt(localStorage.getItem("sfxVolume") as string, 10)
-      : 50
-  );
-
-  const hoverAudioRef = useRef<HoverAudioRef | null>(null);
-
-  const playHoverSound = () => {
-    hoverAudioRef.current!.currentTime = 0;
-    hoverAudioRef.current!.play().catch((error: Error) =>
-      console.error("Hover sound playback failed:", error)
-    );
-  };
-
-  useEffect(() => {
-    hoverAudioRef.current = new Audio(buttonHoverSound);
-  }, []);
-
-  useEffect(() => {
-    hoverAudioRef.current!.volume = sfxVolume / 100;
-    localStorage.setItem("sfxVolume", sfxVolume.toString());
-  }, [sfxVolume]);
+  const {
+    isCalmMode,
+    playHoverSound,
+  } = useSettings();
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -73,16 +46,6 @@ const History = () => {
 
     fetchHistory();
   }, []);
-
-  /*
-    completed: 1
-    difficulty: "Easy"
-    failed: 0
-    gameDate: "2025-03-12T17:08:11.775Z"
-    timeTaken: 4
-    userID: "67d1be9f74cd4587a74440e7"
-    _id: "67d1bf7b74cd4587a74440eb"
- */
 
   return (
     <div
