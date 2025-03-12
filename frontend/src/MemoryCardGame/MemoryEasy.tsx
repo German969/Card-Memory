@@ -7,12 +7,7 @@ import { useSpring, animated } from "@react-spring/web";
 import background from "../assets/images/mode1.gif";
 import bgMusic from "../assets/audio/memory-bg.mp3";
 import {apiService} from "../utils/apiService";
-
-enum Difficulty {
-  EASY = 'Easy',
-  NORMAL = 'Normal',
-  HARD = 'Hard',
-}
+import {Difficulty} from "../constants/history";
 
 interface GameData {
   userID: string;

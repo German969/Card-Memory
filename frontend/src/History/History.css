@@ -1,0 +1,37 @@
+.history-container {
+    display: block;
+    max-height: 500px;
+    border-radius: 20px;
+    overflow: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-family: "Orbitron", sans-serif;
+
+    /*scrollbar-color: #fff rgba(0, 0, 0, 0);
+    scrollbar-width: thin;*/
+     -ms-overflow-style: none;  /* Internet Explorer 10+ */
+     scrollbar-width: none;  /* Firefox */
+}
+
+.history-container::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+}
+
+.history-container thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #1e1e2e;
+    border-bottom: 1px solid #343a40;
+}
+
+.history-item {
+    width: 100%;
+    border: 1px solid #343a40;
+}
+
+.history-item td, .history-item th {
+    padding: 20px;
+    text-align: center;
+}
+

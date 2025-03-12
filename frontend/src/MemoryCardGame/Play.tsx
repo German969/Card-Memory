@@ -227,6 +227,13 @@ const Play = () => {
         </button>
         <button
           className={`game-button ${isCalmMode ? "calm-button" : ""}`}
+          onClick={() => navigate('/history')}
+          onMouseEnter={playHoverSound}
+        >
+          History
+        </button>
+        <button
+          className={`game-button ${isCalmMode ? "calm-button" : ""}`}
           onClick={() => {
             playClickSound();
             alert("Instructions coming soon!");

@@ -7,6 +7,7 @@ import { useSpring, animated } from "@react-spring/web";
 import background from "../assets/images/mode1.gif";
 import bgMusic from "../assets/audio/memory-bg.mp3";
 import axios from "axios";
+import {apiService} from "../utils/apiService";
 
 
 
@@ -42,8 +43,9 @@ const shuffleArray = (array) => {
 };
 const saveGameData = async (gameData) => {
   try {
-    const response = await axios.post(import.meta.env.VITE_API_URL + "/api/memory/save", gameData, {
-      headers: { "Content-Type": "application/json" },
+    const response = await apiService.post({
+      url: "api/memory/save",
+      body: gameData,
     });
 
     console.log("Game data saved successfully", response.data);
