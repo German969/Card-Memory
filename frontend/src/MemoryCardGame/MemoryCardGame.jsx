@@ -8,8 +8,6 @@ import background from "../assets/images/mode1.gif";
 import bgMusic from "../assets/audio/memory-bg.mp3";
 import axios from "axios";
 
-
-
 const defaultDifficulty = "Hard";
 
 // Card Images
@@ -427,7 +425,7 @@ const MemoryCardGame = () => {
       </PixelButton>
       <PixelTimerBox>Timer: {timer}s</PixelTimerBox>
       <PixelBox>Learning Moments: {failedAttempts}</PixelBox>
-      <Grid container spacing={8} justifyContent="center" sx={{ maxWidth: 700, marginTop: "-120px" }}>
+      <Grid container spacing={8} justifyContent="center" sx={{ maxWidth: 900, marginTop: "-120px" }}>
         {cards.map((card) => (
           <Grid item xs={3} key={card.id}>
             <Card

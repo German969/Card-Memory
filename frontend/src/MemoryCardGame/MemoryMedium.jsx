@@ -6,10 +6,7 @@ import PropTypes from "prop-types";
 import { useSpring, animated } from "@react-spring/web";
 import background from "../assets/images/mode1.gif";
 import bgMusic from "../assets/audio/memory-bg.mp3";
-import axios from "axios";
 import {apiService} from "../utils/apiService";
-
-
 
 const defaultDifficulty = "Normal";
 
@@ -27,7 +24,6 @@ const cardImages = [
 const matchAudioFiles = [
   "/audio/wonderful.mp3",
   "/audio/NiceJob.mp3",
-
 ];
 
 const congratsAudio = "/audio/congrats.mp3"; // Final congratulations audio
@@ -285,8 +281,6 @@ const MemoryMedium = () => {
 };
   
   const handleNewGame = () => {
-   
-    
     setCards(shuffleArray(cardImages));
     setMatchedCards([]);
     setFlippedCards([]);
@@ -295,19 +289,16 @@ const MemoryMedium = () => {
     setTimerActive(false);
     setInitialReveal(true);
     setAudioIndex(0); // Reset audio index
-
     
     const mouseDisableDuration = 2000;
     setMouseDisabled(true);
     setTimeout(() => {
       setMouseDisabled(false);  // Re-enable mouse events after mouseDisableDuration
     }, mouseDisableDuration);
-
   
     setTimeout(() => {
       setInitialReveal(false);
       setTimerActive(true);
-   
     }, 1500);
   };
   const handleBackButton = () => {

@@ -274,8 +274,6 @@ const  MemoryEasy = () => {
   const [audioIndex, setAudioIndex] = useState(0);
   const [openModal, setOpenModal] = useState(false);
 
-
-
   const handleSaveNewGame = () => {
     saveGameData({
         userID,
@@ -288,8 +286,6 @@ const  MemoryEasy = () => {
 };
   
   const handleNewGame = () => {
-   
-    
     setCards(shuffleArray(cardImages));
     setMatchedCards([]);
     setFlippedCards([]);
@@ -298,19 +294,16 @@ const  MemoryEasy = () => {
     setTimerActive(false);
     setInitialReveal(true);
     setAudioIndex(0); // Reset audio index
-
     
     const mouseDisableDuration = 2000;
     setMouseDisabled(true);
     setTimeout(() => {
       setMouseDisabled(false);  // Re-enable mouse events after mouseDisableDuration
     }, mouseDisableDuration);
-
   
     setTimeout(() => {
       setInitialReveal(false);
       setTimerActive(true);
-   
     }, 1500);
   };
   const handleBackButton = () => {
@@ -326,7 +319,6 @@ const  MemoryEasy = () => {
   const handleModalNo = () => {
     setOpenModal(false); // Close the modal and resume game
   };
-  
  
   useEffect(() => {
     handleNewGame();
