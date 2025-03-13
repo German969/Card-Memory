@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Login = ({ onLogin }) => {
+interface LoginProps {
+  onLogin: Function;
+}
+
+const Login = ({ onLogin }: LoginProps) => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate(); // For navigation
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const response = await axios.post(import.meta.env.VITE_API_URL + '/api/users/login', formData);
@@ -15,7 +19,7 @@ const Login = ({ onLogin }) => {
       localStorage.setItem('userID', response.data.userID); // Save the userID
       onLogin();
       navigate('/play');
-    } catch (error) {
+    } catch (error: any) {
       if (error.response && error.response.status === 400) {
         setError('User not found. Please register first.');
       } else {

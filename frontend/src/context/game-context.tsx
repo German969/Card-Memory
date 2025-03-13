@@ -97,7 +97,7 @@ export function GameContextProvider({ children, defaultDifficulty }: GameContext
       });
 
       console.log("Game data saved successfully", response.data);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error saving game data:", error.response ? error.response.data : error.message);
     }
   }, []);
@@ -166,7 +166,7 @@ export function GameContextProvider({ children, defaultDifficulty }: GameContext
 
   // Timer
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: any;
     if (timerActive) {
       interval = setInterval(() => setTimer((prev) => prev + 1), 1000);
     }
