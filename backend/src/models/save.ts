@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const saveSchema = new mongoose.Schema({
   userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, 
@@ -13,4 +13,4 @@ const saveSchema = new mongoose.Schema({
   timeTaken: { type: Number, required: true },
 });
 
-module.exports = mongoose.model('Save', saveSchema);
+export default mongoose.model('Save', saveSchema);

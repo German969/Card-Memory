@@ -1,6 +1,6 @@
-const Save = require('../models/save');
+import Save from '../models/save';
 
-exports.saveGameData = async (req, res) => {
+export const saveGameData = async (req, res) => {
     const { userID, gameDate, failed, difficulty, completed, timeTaken } = req.body;
 
     console.log('Received data to save:', req.body); 
@@ -28,7 +28,7 @@ exports.saveGameData = async (req, res) => {
     }
 };
 
-exports.getHistory = async (req, res) => {
+export const getHistory = async (req, res) => {
     const userHistory = await Save.find({
         userID: req.currentUser._id,
     }).sort({

@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+import jwt from 'jsonwebtoken';
+import User from '../models/user';
 
-module.exports = function (req, res, next) {
+export default function (req, res, next) {
   const tokenHeader = req.headers['authorization'];
 
   if (tokenHeader) {

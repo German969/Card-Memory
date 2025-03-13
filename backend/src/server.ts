@@ -1,12 +1,12 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const bodyParser = require('body-parser');
-const connectDB = require('./config/database');
-const userRoutes = require('./routes/userRoutes');
-const memoryRoutes = require('./routes/memoryRoutes');
-const currentUser = require('./middlewares/currentUser');
-const auth = require('./middlewares/auth');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+import connectDB from './config/database';
+import userRoutes from './routes/userRoutes';
+import memoryRoutes from './routes/memoryRoutes';
+import currentUser from './middlewares/currentUser';
+import auth from './middlewares/auth';
 
 
 // Load environment variables
