@@ -12,14 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.decodeToken = void 0;
 exports.default = default_1;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_1 = __importDefault(require("../models/user"));
+const decodeToken = (encodedToken, callback) => {
+    jsonwebtoken_1.default.verify(encodedToken, process.env.JWT_SECRET, callback);
+};
+exports.decodeToken = decodeToken;
 function default_1(req, res, next) {
     const tokenHeader = req.headers['authorization'];
     if (tokenHeader) {
         const [, token] = tokenHeader.split(' ');
-        jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+        (0, exports.decodeToken)(token, function (err, decoded) {
             return __awaiter(this, void 0, void 0, function* () {
                 if (err) {
                     console.log('Invalid token');

@@ -13,7 +13,7 @@ const memoryRoutes_1 = __importDefault(require("./routes/memoryRoutes"));
 const currentUser_1 = __importDefault(require("./middlewares/currentUser"));
 const auth_1 = __importDefault(require("./middlewares/auth"));
 // Load environment variables
-dotenv_1.default.config({ path: './config/.env' });
+dotenv_1.default.config();
 // Check if MONGODB_URI is loaded
 if (!process.env.MONGODB_URI) {
     console.error('Error: MONGODB_URI is not defined in .env');
@@ -40,4 +40,5 @@ app.get('/', (req, res) => {
 });
 // Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+exports.default = server;

@@ -8,9 +8,8 @@ import memoryRoutes from './routes/memoryRoutes';
 import currentUser from './middlewares/currentUser';
 import auth from './middlewares/auth';
 
-
 // Load environment variables
-dotenv.config({ path: './config/.env' });
+dotenv.config();
 
 // Check if MONGODB_URI is loaded
 if (!process.env.MONGODB_URI) {
@@ -47,4 +46,6 @@ app.get('/', (req, res) => {
 
 // Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+export default server;

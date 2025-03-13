@@ -15,7 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getHistory = exports.saveGameData = void 0;
 const save_1 = __importDefault(require("../models/save"));
 const saveGameData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userID, gameDate, failed, difficulty, completed, timeTaken } = req.body;
+    const { gameDate, failed, difficulty, completed, timeTaken } = req.body;
+    const user = req.currentUser;
+    const userID = user._id.toString();
     console.log('Received data to save:', req.body);
     try {
         if (!userID || !gameDate || difficulty === undefined || completed === undefined || timeTaken === undefined) {

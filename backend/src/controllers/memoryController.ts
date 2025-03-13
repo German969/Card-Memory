@@ -1,7 +1,11 @@
 import Save from '../models/save';
 
 export const saveGameData = async (req, res) => {
-    const { userID, gameDate, failed, difficulty, completed, timeTaken } = req.body;
+    const { gameDate, failed, difficulty, completed, timeTaken } = req.body;
+
+    const user = req.currentUser;
+
+    const userID = user._id.toString();
 
     console.log('Received data to save:', req.body); 
 
