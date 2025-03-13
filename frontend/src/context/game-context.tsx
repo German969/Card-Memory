@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useEffect, useRef, useState} from "react";
+import React, {createContext, useCallback, useContext, useEffect, useRef, useState} from "react";
 import useSettings from "../hooks/useSettings";
 import {gameAudioMap} from "../constants/game-audio";
 import {Difficulty} from "../constants/history";
@@ -31,6 +31,7 @@ interface AudioRef {
 
 interface GameContext {
   cards: CardItem[];
+  timer: number;
   flippedCards: CardItem[];
   matchedCards: number[];
   failedAttempts: number;
@@ -48,6 +49,7 @@ interface GameContextProviderProps {
 
 const GameContext = createContext<GameContext>({
   cards: [],
+  timer: 0,
   flippedCards: [],
   matchedCards: [],
   failedAttempts: 0,
@@ -87,7 +89,7 @@ export function GameContextProvider({ children, defaultDifficulty }: GameContext
 
   const audioRef = useRef<HTMLAudioElement & AudioRef>(null);
 
-  const saveGameData = async (gameData: GameData) => {
+  const saveGameData = useCallback(async (gameData: GameData) => {
     try {
       const response = await apiService.post<GameData>({
         url: '/api/memory/save',
@@ -98,9 +100,9 @@ export function GameContextProvider({ children, defaultDifficulty }: GameContext
     } catch (error) {
       console.error("Error saving game data:", error.response ? error.response.data : error.message);
     }
-  };
+  }, []);
 
-  const handleSaveNewGame = () => {
+  const handleSaveNewGame = useCallback(() => {
     saveGameData({
       gameDate: new Date(),
       failed: failedAttempts,
@@ -108,13 +110,13 @@ export function GameContextProvider({ children, defaultDifficulty }: GameContext
       completed: 0,
       timeTaken: timer,
     });
-  };
+  }, [failedAttempts, timer, saveGameData])
 
   const handleUpdateSave = () => {
     console.log('update game data');
   };
 
-  const handleNewGame = () => {
+  const handleNewGame = useCallback(() => {
     setCards(shuffleArray(cardImages));
     setMatchedCards([]);
     setFlippedCards([]);
@@ -134,13 +136,18 @@ export function GameContextProvider({ children, defaultDifficulty }: GameContext
       setInitialReveal(false);
       setTimerActive(true);
     }, 1500);
-  };
+  }, [cardImages]);
 
-  const handleCardClick = (card: CardItem) => {
+  const handleCardClick = useCallback((card: CardItem) => {
     if (!matchedCards.includes(card.id) && flippedCards.length < 2 && !flippedCards.some((c) => c.id === card.id)) {
       setFlippedCards((prev) => [...prev, card]);
     }
-  };
+  }, [matchedCards, flippedCards]);
+
+  const startGame = useCallback(() => {
+    handleSaveNewGame();
+    handleNewGame();
+  }, [handleSaveNewGame, handleNewGame]);
 
   // New Game
   useEffect(() => {
@@ -156,11 +163,6 @@ export function GameContextProvider({ children, defaultDifficulty }: GameContext
 
     return () => document.removeEventListener("click", handleFirstClick);
   }, []);
-
-  const startGame = () => {
-    handleSaveNewGame();
-    handleNewGame();
-  }
 
   // Timer
   useEffect(() => {
@@ -228,6 +230,7 @@ export function GameContextProvider({ children, defaultDifficulty }: GameContext
   return (
     <GameContext.Provider value={{
       cards,
+      timer,
       flippedCards,
       matchedCards,
       failedAttempts,

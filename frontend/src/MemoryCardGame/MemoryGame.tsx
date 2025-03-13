@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useCallback, useState} from "react";
 import {Box, Grid, Button, Modal, Typography} from "@mui/material";
 import { styled } from "@mui/system";
 import background from "../assets/images/mode1.gif";
@@ -6,6 +6,9 @@ import Card from "./Card";
 import Timer from "./Timer";
 import {useGameContext} from "../context/game-context";
 import {useNavigate} from "react-router-dom";
+import FailedAttempts from "./FailedAttempts";
+
+type GridSizes = 4 | 6 | 12;
 
 interface GameContainerProps {
   mouseDisabled: boolean;
@@ -49,22 +52,6 @@ const PixelButton = styled(Box)(({ theme }) => ({
   "&:active": {
     transform: "scale(0.95)",
   },
-}));
-
-const PixelBox = styled(Box)(({ theme }) => ({
-  position: "absolute",
-  bottom: "10%",
-  left: "1%",
-  backgroundColor: "#ff4d4f",
-  color: "#fff",
-  padding: "10px 20px",
-  border: "2px solid #00d9ff",
-  borderRadius: "8px",
-  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-  fontFamily: '"Press Start 2P", cursive',
-  fontSize: "12px",
-  textAlign: "center",
-  marginBottom: "10px",
 }));
 
 const modalStyle = {
@@ -119,7 +106,6 @@ const MemoryGame = () => {
     cards,
     flippedCards,
     matchedCards,
-    failedAttempts,
     mouseDisabled,
     handleCardClick,
     initialReveal,
@@ -131,20 +117,20 @@ const MemoryGame = () => {
 
   const [openModal, setOpenModal] = useState(false);
 
-  const handleBackButton = () => {
+  const handleBackButton = useCallback(() => {
     setOpenModal(true); // Show the confirmation modal
-  };
+  }, []);
 
-  const handleModalYes = () => {
+  const handleModalYes = useCallback(() => {
     handleUpdateSave();
     setOpenModal(false);
     localStorage.removeItem("gameCompleted"); // Remove game completion flag
     navigate("/play"); // Navigate to play
-  };
+  }, [handleUpdateSave]);
 
-  const handleModalNo = () => {
+  const handleModalNo = useCallback(() => {
     setOpenModal(false); // Close the modal and resume game
-  };
+  }, []);
 
   const userID = localStorage.getItem("userID"); // ✅ Fetch from local storage or auth context
   if (!userID) {
@@ -179,7 +165,7 @@ const MemoryGame = () => {
     }
   };
 
-  const gridStyles = gridContainerStylesMap[cards.length || 4];
+  const gridStyles = gridContainerStylesMap[(cards.length || 4) as GridSizes];
 
   return (
     <StyledGameContainer mouseDisabled={mouseDisabled}>
@@ -187,7 +173,7 @@ const MemoryGame = () => {
         Back
       </PixelButton>
       <Timer />
-      <PixelBox>Learning Moments: {failedAttempts}</PixelBox>
+      <FailedAttempts />
       <Grid container spacing={gridStyles.spacing} justifyContent="center" sx={gridStyles.styles}>
         {cards.map((card) => (
           <Grid item xs={gridStyles.size} key={card.id}> {/* Changed from xs={3} to xs={6} for 2 cards per row */}
@@ -204,13 +190,12 @@ const MemoryGame = () => {
           </Grid>
         ))}
       </Grid>
-      <Box sx={{ mt: 2, textAlign: "center" }}>
 
+      <Box sx={{ mt: 2, textAlign: "center" }}>
         <PixelButton onClick={startGame} sx={{ mt: 2}}>
           New Game
         </PixelButton>
       </Box>
-
 
       <Modal open={openModal} onClose={handleModalNo}>
         <Box sx={modalStyle}>

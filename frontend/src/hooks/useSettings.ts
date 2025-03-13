@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import backgroundMusic from "../assets/audio/background-music.mp3";
 import buttonHoverSound from "../assets/audio/button-hover.mp3";
 import buttonClickSound from "../assets/audio/button-click.mp3";
@@ -75,36 +75,36 @@ export default function useSettings() {
     localStorage.setItem("sfxVolume", sfxVolume.toString());
   }, [sfxVolume]);
 
-  const handleBgVolumeChange = (event: React.ChangeEvent) => {
+  const handleBgVolumeChange = useCallback((event: React.ChangeEvent) => {
     const newVolume = parseInt((event.target as HTMLInputElement).value, 10);
     setBgVolume(newVolume);
     setMutedBg(newVolume === 0);
-  };
+  }, []);
 
-  const handleSfxVolumeChange = (event: React.ChangeEvent) => {
+  const handleSfxVolumeChange = useCallback((event: React.ChangeEvent) => {
     const newVolume = parseInt((event.target as HTMLInputElement).value, 10);
     setSfxVolume(newVolume);
     setMutedSfx(newVolume === 0);
-  };
+  }, []);
 
-  const playClickSound = () => {
+  const playClickSound = useCallback(() => {
     clickAudioRef.current!.currentTime = 0;
     clickAudioRef.current!.play().catch((error: Error) =>
       console.error("Click sound playback failed:", error)
     );
-  };
+  }, [clickAudioRef.current]);
 
-  const toggleCalmMode = () => {
+  const toggleCalmMode = useCallback(() => {
     setIsCalmMode((prev) => !prev);
     playClickSound();
-  };
+  }, [playClickSound]);
 
-  const playHoverSound = () => {
+  const playHoverSound = useCallback(() => {
     hoverAudioRef.current!.currentTime = 0;
     hoverAudioRef.current!.play().catch((error: Error) =>
       console.error("Hover sound playback failed:", error)
     );
-  };
+  }, [hoverAudioRef.current]);
 
   return {
     isCalmMode,
