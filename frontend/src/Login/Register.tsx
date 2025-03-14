@@ -5,12 +5,12 @@ const Register = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [message, setMessage] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.post(import.meta.env.VITE_API_URL + '/api/users/register', formData); // Add base URL
+      const response = await axios.post(import.meta.env?.VITE_API_URL + '/api/users/register', formData); // Add base URL
       setMessage(response.data.message);
-    } catch (error) {
+    } catch (error: any) {
       setMessage(error.response?.data.message || 'Error registering');
     }
   };
@@ -31,7 +31,7 @@ const Register = () => {
         value={formData.password}
         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
       />
-      <button type="submit">Register</button>
+      <button type="submit" data-testid="register-btn">Register</button>
       <p>{message}</p>
     </form>
   );

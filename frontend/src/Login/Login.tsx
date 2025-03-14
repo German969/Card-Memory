@@ -14,7 +14,7 @@ const Login = ({ onLogin }: LoginProps) => {
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(import.meta.env.VITE_API_URL + '/api/users/login', formData);
+      const response = await axios.post(import.meta.env?.VITE_API_URL + '/api/users/login', formData);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('userID', response.data.userID); // Save the userID
       onLogin();
@@ -49,7 +49,7 @@ const Login = ({ onLogin }: LoginProps) => {
         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
       />
       <div style={{ display: 'flex', gap: '10px' }}>
-        <button type="submit">Login</button>
+        <button type="submit" data-testid="login-btn">Login</button>
         <button type="button" onClick={handleRegisterRedirect}>
           Register
         </button>

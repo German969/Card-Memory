@@ -6,7 +6,7 @@ import '@testing-library/jest-dom';
 // import {GameContextProvider} from "../context/game-context";
 // import {Difficulty} from "../constants/history";
 
-jest.mock('axios');
+// jest.mock('axios');
 
 jest.useFakeTimers({
   legacyFakeTimers: true,
