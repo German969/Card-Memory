@@ -70,7 +70,7 @@ const Card = ({ card, handleClick, flipped, matched }: CardProps) => {
   });
 
   return (
-    <CardContainer onClick={handleClick}>
+    <CardContainer onClick={handleClick} data-testid="card-container">
       <CardInner style={{ transform }}>
         <CardFront>
           <img src={card.image} alt="Card front" style={{ width: "140%", height: "140%" }} />

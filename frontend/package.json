@@ -4,12 +4,13 @@
   "version": "0.0.3",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "tailwind:init": "npx tailwindcss init",
-    "test": "NODE_OPTIONS=\"--experimental-vm-modules\" jest --config jest.config.ts"
+    "test": "NODE_OPTIONS=\"--experimental-vm-modules\" jest --config jest.config.ts",
+    "cy:open": "cypress open"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -42,6 +43,7 @@
     "@types/react-modal": "^3.16.3",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
+    "cypress": "^14.2.0",
     "eslint": "^9.17.0",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",

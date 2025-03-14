@@ -39,12 +39,14 @@ const Login = ({ onLogin }: LoginProps) => {
       <input
         type="text"
         placeholder="Username"
+        data-testid="username-input"
         value={formData.username}
         onChange={(e) => setFormData({ ...formData, username: e.target.value })}
       />
       <input
         type="password"
         placeholder="Password"
+        data-testid="password-input"
         value={formData.password}
         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
       />
