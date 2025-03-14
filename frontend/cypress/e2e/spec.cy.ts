@@ -1,4 +1,4 @@
-describe('My First Test', () => {
+describe('Play Game', () => {
   it('Go to login', () => {
     cy.intercept('POST', 'http://localhost:4000/api/users/login', {
       data: {
