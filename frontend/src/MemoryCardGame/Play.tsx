@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Modal from "react-modal";
 import backgroundGif from "../assets/images/play.gif";
@@ -7,6 +7,10 @@ import {X} from "lucide-react";
 import "./Play.css";
 import useSettings from "../hooks/useSettings";
 import {Difficulty} from "../constants/history";
+import Card from "./Card";
+import {Button, Grid, MobileStepper} from "@mui/material";
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 
 const modalStyles = {
   overlay: {
@@ -66,7 +70,12 @@ const Play = () => {
   const navigate = useNavigate();
   const [SettingsModalIsOpen, setModalSettingIsOpen] = useState(false);
   const [PlayModalIsOpen, setModalPlayIsOpen] = useState(false);
+  const [InstructionsModalIsOpen, setInstructionsModalIsOpen] = useState(false);
   const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
+  const [instructionsStep, setInstructionsStep] = useState(0);
+  const [instructionsShowCard, setInstructionsShowCard] = useState(false);
+
+  const intervalRef = useRef<number>();
 
   const {
     isCalmMode,
@@ -98,6 +107,16 @@ const Play = () => {
   const PlaycloseModal = () => {
     playClickSound();
     setModalPlayIsOpen(false);
+  };
+
+  const InstructionsOpenModal = () => {
+    setInstructionsModalIsOpen(true);
+    playClickSound();
+  };
+
+  const InstructionsCloseModal = () => {
+    setInstructionsModalIsOpen(false);
+    playClickSound();
   };
 
   const handleDifficultySelect = (level: Difficulty) => {
@@ -136,6 +155,19 @@ const Play = () => {
     }
   };
 
+  useEffect(() => {
+    if (instructionsStep === 1 && !intervalRef.current) {
+      intervalRef.current = setInterval(() => {
+        setInstructionsShowCard(p => !p);
+      }, 1000)
+    } else {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = undefined;
+      }
+    }
+  }, [instructionsStep]);
+
   return (
     <div
       className="background-container"
@@ -164,10 +196,7 @@ const Play = () => {
         </button>
         <button
           className={`game-button ${isCalmMode ? "calm-button" : ""}`}
-          onClick={() => {
-            playClickSound();
-            alert("Instructions coming soon!");
-          }}
+          onClick={InstructionsOpenModal}
           onMouseEnter={playHoverSound}
         >
           Instructions
@@ -329,6 +358,241 @@ const Play = () => {
           >
             Accept
           </button>
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={InstructionsModalIsOpen}
+        onRequestClose={InstructionsCloseModal}
+        style={{
+          ...modalStyles,
+          content: {
+            ...modalStyles.content,
+            backgroundColor: isCalmMode ? "#86a17d" : "#1e1e2e",
+            color: isCalmMode ? "#ffffff" : "#fff",
+            height: "500px"
+          } as any,
+        }}
+      >
+        <button
+          onClick={InstructionsCloseModal}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            color: "#fff",
+          }}
+        >
+          <X size={24} />
+        </button>
+
+        <h2 className={`${isCalmMode ? "calm-mode-label" : ""} modal-h2`}>
+          Instructions
+        </h2>
+
+        {instructionsStep === 0 && (
+          <div>
+            <p className="instructions-text">Cards will start revealed for a couple of seconds. Try to memorize them!</p>
+
+            <Grid container spacing={2}>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 1, image: '/images/meteor.png' }}
+                  handleClick={() => {}}
+                  flipped={true}
+                  matched={true}
+                  small={true}
+                />
+              </Grid>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 2, image: '/images/meteor.png' }}
+                  handleClick={() => {}}
+                  flipped={true}
+                  matched={true}
+                  small={true}
+                />
+              </Grid>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 3, image: '/images/comet.png' }}
+                  handleClick={() => {}}
+                  flipped={true}
+                  matched={true}
+                  small={true}
+                />
+              </Grid>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 4, image: '/images/comet.png' }}
+                  handleClick={() => {}}
+                  flipped={true}
+                  matched={true}
+                  small={true}
+                />
+              </Grid>
+            </Grid>
+          </div>
+        )}
+
+        {instructionsStep === 1 && (
+          <div>
+            <p className="instructions-text">You can click the cards to reveal them when they are hidden.</p>
+
+            <Grid container spacing={2}>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 1, image: '/images/meteor.png' }}
+                  handleClick={() => {}}
+                  flipped={instructionsShowCard}
+                  matched={false}
+                  small={true}
+                />
+              </Grid>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 2, image: '/images/meteor.png' }}
+                  handleClick={() => {}}
+                  flipped={false}
+                  matched={false}
+                  small={true}
+                />
+              </Grid>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 3, image: '/images/comet.png' }}
+                  handleClick={() => {}}
+                  flipped={false}
+                  matched={false}
+                  small={true}
+                />
+              </Grid>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 4, image: '/images/comet.png' }}
+                  handleClick={() => {}}
+                  flipped={false}
+                  matched={false}
+                  small={true}
+                />
+              </Grid>
+            </Grid>
+          </div>
+        )}
+
+        {instructionsStep === 2 && (
+          <div>
+            <p className="instructions-text">If you find two matching cards, they will stay revealed.</p>
+
+            <Grid container spacing={2}>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 1, image: '/images/meteor.png' }}
+                  handleClick={() => {}}
+                  flipped={true}
+                  matched={true}
+                  small={true}
+                />
+              </Grid>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 2, image: '/images/meteor.png' }}
+                  handleClick={() => {}}
+                  flipped={true}
+                  matched={true}
+                  small={true}
+                />
+              </Grid>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 3, image: '/images/comet.png' }}
+                  handleClick={() => {}}
+                  flipped={false}
+                  matched={false}
+                  small={true}
+                />
+              </Grid>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 4, image: '/images/comet.png' }}
+                  handleClick={() => {}}
+                  flipped={false}
+                  matched={false}
+                  small={true}
+                />
+              </Grid>
+            </Grid>
+          </div>
+        )}
+
+        {instructionsStep === 3 && (
+          <div>
+            <p className="instructions-text">Find all matching cards to win the game!</p>
+
+            <Grid container spacing={2}>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 1, image: '/images/meteor.png' }}
+                  handleClick={() => {}}
+                  flipped={true}
+                  matched={true}
+                  small={true}
+                />
+              </Grid>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 2, image: '/images/meteor.png' }}
+                  handleClick={() => {}}
+                  flipped={true}
+                  matched={true}
+                  small={true}
+                />
+              </Grid>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 3, image: '/images/comet.png' }}
+                  handleClick={() => {}}
+                  flipped={true}
+                  matched={true}
+                  small={true}
+                />
+              </Grid>
+              <Grid item xs={6} className="instructions-card">
+                <Card
+                  card={{ id: 4, image: '/images/comet.png' }}
+                  handleClick={() => {}}
+                  flipped={true}
+                  matched={true}
+                  small={true}
+                />
+              </Grid>
+            </Grid>
+          </div>
+        )}
+
+        <div className="stepper-container">
+          <MobileStepper
+            variant="dots"
+            steps={4}
+            position="static"
+            activeStep={instructionsStep}
+            sx={{ maxWidth: 400, flexGrow: 1, background: 'none' }}
+            nextButton={
+              <Button size="small" onClick={() => setInstructionsStep(p => p+1)} disabled={instructionsStep === 3}>
+                Next
+                <KeyboardArrowRight />
+              </Button>
+            }
+            backButton={
+              <Button size="small" onClick={() => setInstructionsStep(p => p-1)} disabled={instructionsStep === 0}>
+                <KeyboardArrowLeft />
+                Back
+              </Button>
+            }
+          />
         </div>
       </Modal>
     </div>

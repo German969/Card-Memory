@@ -11,6 +11,13 @@ const CardContainer = styled(Box)({
   height: "220px",
 });
 
+const SmallCardContainer = styled(Box)({
+  perspective: "1000px",
+  cursor: "pointer",
+  width: "130px",
+  height: "130px",
+})
+
 const CardInner = styled(animated.div)({
   position: "relative",
   width: "100%",
@@ -61,13 +68,29 @@ interface CardProps {
   handleClick: (e: any) => void,
   flipped: boolean,
   matched: boolean,
+  small: boolean;
 }
 
-const Card = ({ card, handleClick, flipped, matched }: CardProps) => {
+const Card = ({ card, handleClick, flipped, matched, small = false }: CardProps) => {
   const { transform } = useSpring({
     transform: flipped || matched ? "rotateY(180deg)" : "rotateY(0deg)",
     config: { tension: 500, friction: 30 },
   });
+
+  if (small) {
+    return (
+      <SmallCardContainer onClick={handleClick} data-testid="card-container">
+        <CardInner style={{ transform }}>
+          <CardFront>
+            <img src={card.image} alt="Card front" style={{ width: "140%", height: "140%" }} />
+          </CardFront>
+          <CardBack>
+            <img src="/images/Back2.png" alt="Card back" style={{ width: "120%", height: "120%" }} />
+          </CardBack>
+        </CardInner>
+      </SmallCardContainer>
+    );
+  }
 
   return (
     <CardContainer onClick={handleClick} data-testid="card-container">
