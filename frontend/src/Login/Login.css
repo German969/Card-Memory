@@ -1,0 +1,63 @@
+.login-container {
+    position: absolute;
+    top: 30%; /* Centers the modal */
+    background: rgba(30, 30, 46, 0.95); /* Default background */
+    border: 2px solid #4a4e69; /* Default border color */
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
+    width: 400px;
+}
+
+.form-title {
+    text-align: center;
+    font-family: "Orbitron", sans-serif;
+    color: #ffcc00; /* Default color for background music and sound effects */
+    text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffaa00; /* Glowing effect */
+    margin-bottom: 40px;
+    font-size: 28px;
+}
+
+.form-button {
+    margin-top: 50px;
+    padding: 10px 20px;
+    background: #4a4e69;
+    color: #fff;
+    font-family: "Press Start 2P", sans-serif;
+    font-size: 18px;
+    border: 2px solid #9a8c98;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
+}
+
+.secondary-form-button {
+    margin-top: 50px;
+    padding: 10px 20px;
+    background: none;
+    color: #fff;
+    font-family: "Press Start 2P", sans-serif;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.form-input-wrapper {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-input {
+    padding: 10px 20px;
+    background: none;
+    border-radius: 10px;
+    border: 2px solid #9a8c98;
+    color: #fff;
+    font-size: 20px;
+}
+
+.form-message {
+    color: #fff;
+    display: block;
+    text-align: center;
+}
