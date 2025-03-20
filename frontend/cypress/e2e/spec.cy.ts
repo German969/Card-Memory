@@ -7,7 +7,7 @@ describe('Play Game', () => {
       }
     })
 
-    cy.visit('http://192.168.68.103:5173/');
+    cy.visit('http://192.168.68.100:5173/');
 
     cy.url().should('include', '/login');
 
