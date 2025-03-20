@@ -16,5 +16,6 @@ export default {
   },
   moduleNameMapper: {
     '\\.(gif|ttf|eot|svg|png|mp3)$': '<rootDir>/test/__mocks__/fileMock.ts',
+    '\\.(css|less)$': '<rootDir>/test/__mocks__/styleMock.ts'
   }
 }
